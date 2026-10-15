@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Metallic Gold Outer Gradient -->
+    <linearGradient id="goldGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e5b427" />
+      <stop offset="15%" stop-color="#fff6cb" />
+      <stop offset="35%" stop-color="#d89b1c" />
+      <stop offset="50%" stop-color="#8e5904" />
+      <stop offset="65%" stop-color="#f3ca4a" />
+      <stop offset="85%" stop-color="#fff8d6" />
+      <stop offset="100%" stop-color="#9b6205" />
+    </linearGradient>
+
+    <linearGradient id="goldGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fff8d6" />
+      <stop offset="25%" stop-color="#d89b1c" />
+      <stop offset="50%" stop-color="#7a4901" />
+      <stop offset="75%" stop-color="#f5cf53" />
+      <stop offset="100%" stop-color="#8e5904" />
+    </linearGradient>
+
+    <!-- Radial Sheen for 3D Ring Reflection -->
+    <radialGradient id="ringSheen" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#fff9db" stop-opacity="0.9" />
+      <stop offset="30%" stop-color="#e5b427" stop-opacity="0.4" />
+      <stop offset="70%" stop-color="#704100" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#3d2100" stop-opacity="0.95" />
+    </radialGradient>
+
+    <!-- Drop Shadow for Letters and Ring -->
+    <filter id="embossShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="2" dy="5" stdDeviation="4" flood-color="#2a1700" flood-opacity="0.6" />
+    </filter>
+  </defs>
+
+  <circle cx="256" cy="256" r="256" fill="#ffffff" />
+
+  <!-- Outer Dark Contour -->
+  <circle cx="256" cy="256" r="232" fill="none" stroke="#3b2200" stroke-width="4" />
+
+  <!-- Main Heavy Gold Ring -->
+  <circle cx="256" cy="256" r="214" fill="none" stroke="url(#goldGrad1)" stroke-width="34" filter="url(#embossShadow)" />
+  <circle cx="256" cy="256" r="214" fill="none" stroke="url(#ringSheen)" stroke-width="34" opacity="0.5" />
+
+  <!-- Bevel Ring Highlights -->
+  <circle cx="256" cy="256" r="231" fill="none" stroke="#fff6cb" stroke-width="1.8" opacity="0.8" />
+  <circle cx="256" cy="256" r="197" fill="none" stroke="#523000" stroke-width="2.5" opacity="0.9" />
+  <circle cx="256" cy="256" r="195" fill="none" stroke="#ffe9a0" stroke-width="1.5" opacity="0.7" />
+
+  <!-- Inner Pure White Circular Center Disc -->
+  <circle cx="256" cy="256" r="194" fill="#ffffff" />
+
+  <!-- Monogram bt in 3D Gold (Vector Path matching user image exactly) -->
+  <g filter="url(#embossShadow)">
+    <!-- Letter 'b' -->
+    <!-- Stem of 'b' -->
+    <path d="M 172 136 L 202 136 L 202 376 L 172 376 Z" fill="url(#goldGrad1)" stroke="#382000" stroke-width="2.5" stroke-linejoin="round" />
+    <path d="M 174 138 L 180 138 L 180 374 L 174 374 Z" fill="#fffceb" opacity="0.7" />
+
+    <!-- Bowl of 'b' -->
+    <path d="M 198 200 
+             C 245 190, 280 220, 280 286 
+             C 280 354, 245 382, 198 376 
+             L 198 344 
+             C 225 348, 250 326, 250 286 
+             C 250 246, 225 224, 198 228 Z" 
+          fill="url(#goldGrad1)" stroke="#382000" stroke-width="2.5" stroke-linejoin="round" />
+    <path d="M 200 203 C 243 194, 276 222, 276 286 C 276 350, 243 378, 200 373 Z" fill="none" stroke="#ffe9a0" stroke-width="1.5" opacity="0.6" />
+
+    <!-- Letter 't' interlocked -->
+    <!-- Crossbar of 't' with sharp left upward spike -->
+    <path d="M 256 195 
+             L 280 162 
+             L 280 195 
+             L 332 195 
+             L 332 225 
+             L 280 225 
+             L 280 320 
+             C 280 345, 292 355, 312 355 
+             C 322 355, 330 350, 336 345 
+             L 336 374 
+             C 326 381, 312 384, 298 384 
+             C 268 384, 252 364, 252 324 
+             L 252 225 
+             L 242 225 
+             L 242 195 Z" 
+          fill="url(#goldGrad2)" stroke="#382000" stroke-width="2.5" stroke-linejoin="round" />
+    <!-- Bright Edge Highlight for 't' -->
+    <path d="M 280 165 L 280 197 L 330 197" fill="none" stroke="#fffde8" stroke-width="2" opacity="0.8" />
+  </g>
+</svg>

@@ -1,0 +1,6 @@
+{
+  "name": "Balcad Travel Agency - Admin & CRM",
+  "description": "Internal Admin and CRM web application for Balcad Travel Agency. Manage orders, customers, employees, payments, AR report, messaging, and transactions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
