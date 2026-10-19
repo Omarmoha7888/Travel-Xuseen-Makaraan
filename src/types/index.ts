@@ -58,6 +58,7 @@ export interface DebtModificationAudit {
     | 'status_change'
     | 'payment_received'
     | 'price_adjustment'
+    | 'financial_adjustment'
     | 'assignment'
     | 'document_uploaded';
   staff_username: string;

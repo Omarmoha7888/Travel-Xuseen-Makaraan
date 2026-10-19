@@ -24,6 +24,7 @@ import {
   CreditCard,
   Lock,
   Wallet,
+  ShieldCheck,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
@@ -338,6 +339,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               className="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs sm:text-sm shadow-lg shadow-amber-500/20 transition active:scale-95 duration-75 flex items-center gap-2 cursor-pointer"
             >
               <span>+ {t('new_order')}</span>
+            </button>
+            <button
+              onClick={() => onNavigateTab('debt_review')}
+              className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500/20 via-emerald-500/15 to-transparent hover:from-emerald-500/30 hover:to-emerald-500/20 text-emerald-300 font-bold text-xs sm:text-sm border border-emerald-500/40 transition active:scale-95 duration-75 flex items-center gap-2 cursor-pointer shadow-sm"
+            >
+              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              <span>Qeybta Review-ga Shaqaalaha</span>
             </button>
             <button
               onClick={() => onNavigateTab('ar_report')}

@@ -14,6 +14,7 @@ import {
   Shield,
   Briefcase,
   KeyRound,
+  ShieldCheck,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -141,6 +142,22 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Right Controls */}
       <div className="flex items-center gap-2 sm:gap-3">
+        {/* Quick Review Navigation Button */}
+        {onNavigateTab && (
+          <button
+            type="button"
+            onClick={() => onNavigateTab('debt_review')}
+            className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-500/20 via-teal-500/15 to-amber-500/10 border border-emerald-500/40 text-emerald-300 hover:text-white hover:border-emerald-400 text-xs font-bold transition cursor-pointer active:scale-95 shadow-sm"
+            title="Qeybta Review-ga Shaqaalaha & Deynta"
+          >
+            <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+            <span className="hidden sm:inline">Qeybta Review-ga</span>
+            <span className="text-[10px] bg-emerald-500/25 text-emerald-200 px-1.5 py-0.5 rounded-full font-mono uppercase font-bold border border-emerald-500/30">
+              Review
+            </span>
+          </button>
+        )}
+
         {/* Date Display */}
         <div className="hidden xl:flex items-center gap-1.5 text-xs text-slate-400 font-mono bg-slate-900/50 px-3 py-1.5 rounded-lg border border-slate-800">
           <Calendar className="w-3.5 h-3.5 text-amber-400" />

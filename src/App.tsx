@@ -92,7 +92,10 @@ const MainLayout: React.FC = () => {
           onToggleMobileSidebar={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
           onGlobalSearch={(q) => {
             setGlobalSearch(q);
-            if (q.trim() && currentTab !== 'orders') {
+            const lower = q.trim().toLowerCase();
+            if (lower === 'review' || lower === 'audit' || lower === 'deyn review' || lower === 'qeybta review') {
+              setCurrentTab('debt_review');
+            } else if (q.trim() && currentTab !== 'orders') {
               setCurrentTab('orders');
             }
           }}
@@ -140,8 +143,10 @@ const MainLayout: React.FC = () => {
               )
             ) : currentTab === 'messages' ? (
               <InternalMessagingView />
+            ) : currentTab === 'debt_review' ? (
+              <ARReportView initialView="review" onSelectOrder={handleSelectOrder} />
             ) : currentTab === 'ar_report' ? (
-              <ARReportView onSelectOrder={handleSelectOrder} />
+              <ARReportView initialView="table" onSelectOrder={handleSelectOrder} />
             ) : currentTab === 'transactions' ? (
               <RecentTransactionsView />
             ) : currentTab === 'reports' ? (

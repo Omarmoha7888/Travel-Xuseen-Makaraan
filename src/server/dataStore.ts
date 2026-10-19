@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import fs from 'fs';
 import path from 'path';
+import { initialDatabaseSnapshot } from './initialDatabaseSnapshot';
 import {
   User,
   Customer,
@@ -1054,35 +1055,60 @@ const DB_STORAGE_FILE = process.env.VERCEL
   : path.join(process.cwd(), '.crm_database.json');
 
 class DatabaseManager {
-  private db: CRMDatabase = createSeedData();
+  private db: CRMDatabase = structuredClone(initialDatabaseSnapshot) as unknown as CRMDatabase;
 
   constructor() {
     let loaded = false;
+    // 1. Try primary storage file (e.g. /tmp/.crm_database.json on Vercel, or local .crm_database.json)
     if (fs.existsSync(DB_STORAGE_FILE)) {
       try {
         const raw = fs.readFileSync(DB_STORAGE_FILE, 'utf-8');
-        this.db = JSON.parse(raw);
-        // Ensure super admin blc00001 credentials and name are present
-        const admin = this.db.users.find((u) => u.role === 'super_admin');
-        if (admin) {
-          if (admin.username !== 'blc00001') {
-            admin.username = 'blc00001';
-            admin.profile.full_name = 'Hussein Mohamud Ali';
-            admin.password_hash = bcrypt.hashSync('xuseen.50', 10);
-          }
+        const parsed = JSON.parse(raw);
+        if (parsed && Array.isArray(parsed.orders) && parsed.orders.length > 0) {
+          this.db = parsed;
+          loaded = true;
         }
-        loaded = true;
       } catch {
         loaded = false;
       }
     }
+
+    // 2. Try root workspace file if not yet loaded
     if (!loaded) {
-      this.db = createSeedData();
+      const rootDbFile = path.join(process.cwd(), '.crm_database.json');
+      if (fs.existsSync(rootDbFile)) {
+        try {
+          const raw = fs.readFileSync(rootDbFile, 'utf-8');
+          const parsed = JSON.parse(raw);
+          if (parsed && Array.isArray(parsed.orders) && parsed.orders.length > 0) {
+            this.db = parsed;
+            loaded = true;
+          }
+        } catch {
+          loaded = false;
+        }
+      }
     }
+
+    // 3. Fallback to bundled snapshot (guarantees 100% data presence including debt audits on Vercel)
+    if (!loaded) {
+      this.db = structuredClone(initialDatabaseSnapshot) as unknown as CRMDatabase;
+    }
+
+    // Ensure super admin blc00001 credentials and name are present
+    const admin = this.db.users.find((u) => u.role === 'super_admin');
+    if (admin) {
+      if (admin.username !== 'blc00001') {
+        admin.username = 'blc00001';
+        admin.profile.full_name = 'Hussein Mohamud Ali';
+        admin.password_hash = bcrypt.hashSync('xuseen.50', 10);
+      }
+    }
+
     if (!this.db.cash_closures) {
       this.db.cash_closures = [];
     }
-    // Clean out dummy demo customers, sync customers from active orders, and build audit history
+
     this.cleanAndSyncCustomers();
     this.ensureOrdersModificationsHistory();
     this.ensureConversationsHealth();
@@ -1102,12 +1128,25 @@ class DatabaseManager {
   cleanAndSyncCustomers() {
     if (!this.db.customers) this.db.customers = [];
 
-    // Filter out old seed dummy customer IDs (cust-01 through cust-10 and cust-1790945275150)
-    this.db.customers = this.db.customers.filter((c) => {
-      const isDummy = c.id.startsWith('cust-0') || c.id === 'cust-10' || c.id === 'cust-1790945275150';
-      const hasOrder = this.db.orders.some((o) => o.customer_id === c.id);
-      return hasOrder && !isDummy;
-    });
+    // Ensure every order has a valid customer record
+    for (const ord of this.db.orders) {
+      if (ord.customer_id && !this.db.customers.some((c) => c.id === ord.customer_id)) {
+        const fallbackName = (ord.service_details?.passenger_names?.[0]) || 'Customer ' + ord.order_number;
+        this.db.customers.push({
+          id: ord.customer_id,
+          full_name: fallbackName,
+          phone: '0615501050',
+          email: 'customer@balcadtravel.so',
+          country: 'Somalia',
+          city: 'Mogadishu',
+          notes: 'Maka Al-Mukarama, Mogadishu',
+          created_at: ord.created_at,
+          orders_count: 1,
+          total_debt: ord.outstanding_debt || 0,
+          last_order_date: ord.created_at.split('T')[0],
+        });
+      }
+    }
 
     // Recalculate accurate metrics for every customer
     for (const cust of this.db.customers) {
@@ -1193,6 +1232,7 @@ class DatabaseManager {
           timestamp: ord.created_at,
           description: `Dalabka waxa diiwaan galiyay @${ord.created_by} (Initial creation). Wadarta: $${ord.total_price}, Hormaris: $${ord.amount_paid}, Deyn bilow ah: $${ord.outstanding_debt}`,
           previous_debt: 0,
+          amount_changed: ord.outstanding_debt,
           debt_balance_after: ord.outstanding_debt,
           total_price_after: ord.total_price,
           total_paid_after: ord.amount_paid,
@@ -1211,6 +1251,7 @@ class DatabaseManager {
                 timestamp: sh.created_at,
                 description: `Xaaladda dalabka waxa wax ka beddelay @${sh.changed_by} -> "${sh.new_status}"${sh.reason ? ` (${sh.reason})` : ''}`,
                 previous_debt: ord.outstanding_debt,
+                amount_changed: 0,
                 debt_balance_after: ord.outstanding_debt,
                 total_price_after: ord.total_price,
                 total_paid_after: ord.amount_paid,
@@ -1234,6 +1275,7 @@ class DatabaseManager {
             timestamp: p.created_at || `${p.payment_date}T12:00:00Z`,
             description: `Lacag bixin $${p.amount} (${p.payment_method}) waxa qabtay @${p.received_by}. Deyn harka: $${remainingDebtAtPay}`,
             previous_debt: remainingDebtAtPay + p.amount,
+            amount_changed: -p.amount,
             debt_balance_after: remainingDebtAtPay,
             total_price_after: ord.total_price,
             total_paid_after: runningPaid,
@@ -1675,6 +1717,22 @@ class DatabaseManager {
         created_at: new Date().toISOString(),
       };
       this.db.payments.push(newPay);
+
+      if (!newOrder.modifications_history) newOrder.modifications_history = [];
+      newOrder.modifications_history.push({
+        id: `mod-${Date.now()}-pay`,
+        order_id: orderId,
+        action_type: 'payment_received',
+        staff_username: user.username,
+        timestamp: new Date().toISOString(),
+        description: `Lacag hormaris ah $${initialPaid} waxa qabtay @${user.username}. Deyn harka: $${outstanding}`,
+        previous_debt: totalPrice,
+        amount_changed: -initialPaid,
+        debt_balance_after: outstanding,
+        total_price_after: totalPrice,
+        total_paid_after: initialPaid,
+        reason: data.payment_note || 'Hormaris bilow ah',
+      });
 
       this.db.transactions.unshift({
         id: `TRX-${1000 + this.db.transactions.length + 1}`,

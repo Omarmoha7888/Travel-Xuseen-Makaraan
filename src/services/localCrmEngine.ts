@@ -1,3 +1,4 @@
+import { initialDatabaseSnapshot } from '../server/initialDatabaseSnapshot';
 import {
   User,
   Customer,
@@ -27,38 +28,26 @@ interface LocalDB {
   cash_closures: CashCounterClosure[];
 }
 
-const LOCAL_STORAGE_KEY = 'balcad_crm_local_db_v3';
+const LOCAL_STORAGE_KEY = 'balcad_crm_local_db_v4';
 const ACTIVE_USER_KEY = 'balcad_crm_active_user_v3';
 
 function createInitialLocalDB(): LocalDB {
-  const users: (User & { password_plain: string })[] = [
-    {
-      id: 'usr-admin-01',
-      username: 'blc00001',
-      role: 'super_admin',
-      status: 'active',
-      failed_login_attempts: 0,
-      created_at: '2026-01-01T08:00:00Z',
-      last_login: new Date().toISOString(),
-      password_plain: 'xuseen.50',
-      profile: {
-        id: 'prof-01',
-        user_id: 'usr-admin-01',
-        full_name: 'Hussein Mohamud Ali',
-        phone: '0615501050',
-        email: 'xuseen0250@gmail.com',
-        department: 'Executive Management',
-        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
-      },
-    },
-    {
+  const cloned = structuredClone(initialDatabaseSnapshot);
+  const usersWithPlain = cloned.users.map((u: any) => ({
+    ...u,
+    password_plain: u.username === 'blc00001' ? 'xuseen.50' : 'password123',
+  }));
+
+  // Ensure default staff users exist
+  if (!usersWithPlain.some((u: any) => u.username === 'mohamed')) {
+    usersWithPlain.push({
       id: 'usr-staff-01',
       username: 'mohamed',
       role: 'employee',
       status: 'active',
       failed_login_attempts: 0,
       created_at: '2026-01-10T09:30:00Z',
-      last_login: new Date(Date.now() - 3600000).toISOString(),
+      last_login: new Date().toISOString(),
       password_plain: 'password123',
       profile: {
         id: 'prof-02',
@@ -69,324 +58,14 @@ function createInitialLocalDB(): LocalDB {
         department: 'Ticketing & Flights',
         avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
       },
-    },
-    {
-      id: 'usr-staff-02',
-      username: 'sarah',
-      role: 'employee',
-      status: 'active',
-      failed_login_attempts: 0,
-      created_at: '2026-01-15T11:00:00Z',
-      last_login: new Date(Date.now() - 7200000).toISOString(),
-      password_plain: 'password123',
-      profile: {
-        id: 'prof-03',
-        user_id: 'usr-staff-02',
-        full_name: 'Sarah Warsame',
-        phone: '612998877',
-        email: 'sarah.warsame@balcadtravel.so',
-        department: 'Visa Operations',
-        avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150',
-      },
-    },
-    {
-      id: 'usr-staff-1790960387058',
-      username: 'blc00002',
-      role: 'employee',
-      status: 'active',
-      failed_login_attempts: 0,
-      created_at: '2026-10-02T16:59:47.169Z',
-      last_login: new Date(Date.now() - 3600000).toISOString(),
-      password_plain: 'password123',
-      profile: {
-        id: 'prof-1790960387169',
-        user_id: 'usr-staff-1790960387058',
-        full_name: 'CUMAR TAAKUUR',
-        phone: '618590999',
-        email: 'cumartaakuur7888@gmail.com',
-        department: 'Finance & Accounts',
-      },
-    },
-  ];
-
-  const customers: Customer[] = [];
-
-  const orders: Order[] = [
-    {
-      id: 'ord-1001',
-      order_number: 'ORD-1001',
-      customer_id: 'cust-01',
-      customer: customers[0],
-      service_type: 'Flight Ticket',
-      status: 'Confirmed',
-      payment_type: 'Debt',
-      created_by: 'blc00001',
-      created_by_user_id: 'usr-admin-01',
-      assigned_staff: 'mohamed',
-      assigned_staff_id: 'usr-staff-01',
-      total_price: 450,
-      amount_paid: 200,
-      outstanding_debt: 250,
-      currency: 'USD',
-      service_details: {
-        passenger_name: 'Ahmed Hassan Farah',
-        route: 'Mogadishu (MGQ) -> Nairobi (NBO)',
-        airline: 'Daallo Airlines',
-        departure_date: '2026-03-05',
-      },
-      notes: 'Deposit received. Balance $250 due on March 1st.',
-      price_entered_by: 'blc00001',
-      price_entered_at: '2026-02-18T14:30:00Z',
-      created_at: '2026-02-18T14:30:00Z',
-      updated_at: '2026-02-19T10:00:00Z',
-    },
-    {
-      id: 'ord-1002',
-      order_number: 'ORD-1002',
-      customer_id: 'cust-02',
-      customer: customers[1],
-      service_type: 'Visa Service',
-      status: 'Completed',
-      payment_type: 'Paid',
-      created_by: 'blc00001',
-      created_by_user_id: 'usr-admin-01',
-      assigned_staff: 'sarah',
-      assigned_staff_id: 'usr-staff-02',
-      total_price: 320,
-      amount_paid: 320,
-      outstanding_debt: 0,
-      currency: 'USD',
-      service_details: {
-        destination_country: 'United Arab Emirates',
-        visa_type: '30 Days Tourist Visa',
-      },
-      notes: 'Visa approved. Full payment settled.',
-      price_entered_by: 'blc00001',
-      price_entered_at: '2026-02-20T09:15:00Z',
-      created_at: '2026-02-20T09:15:00Z',
-      updated_at: '2026-02-21T16:00:00Z',
-    },
-    {
-      id: 'ord-1003',
-      order_number: 'ORD-1003',
-      customer_id: 'cust-03',
-      customer: customers[2],
-      service_type: 'Travel Package',
-      status: 'In Progress',
-      payment_type: 'Debt',
-      created_by: 'blc00001',
-      created_by_user_id: 'usr-admin-01',
-      assigned_staff: 'sarah',
-      assigned_staff_id: 'usr-staff-02',
-      total_price: 1200,
-      amount_paid: 780,
-      outstanding_debt: 420,
-      currency: 'USD',
-      service_details: {
-        destination: 'Istanbul, Turkey',
-        hotel_name: 'Grand Halic Hotel',
-      },
-      notes: 'Embassy appointment confirmed. Remaining balance $420.',
-      price_entered_by: 'blc00001',
-      price_entered_at: '2026-02-22T16:00:00Z',
-      created_at: '2026-02-22T16:00:00Z',
-      updated_at: '2026-02-23T08:30:00Z',
-    },
-    {
-      id: 'ord-1004',
-      order_number: 'ORD-1004',
-      customer_id: 'cust-04',
-      customer: customers[3],
-      service_type: 'Travel Package',
-      status: 'Completed',
-      payment_type: 'Paid',
-      created_by: 'blc00001',
-      created_by_user_id: 'usr-admin-01',
-      assigned_staff: 'mohamed',
-      assigned_staff_id: 'usr-staff-01',
-      total_price: 1850,
-      amount_paid: 1850,
-      outstanding_debt: 0,
-      currency: 'USD',
-      service_details: {
-        destination: 'Makkah & Madinah, KSA',
-      },
-      notes: 'Umrah package. Fully paid.',
-      price_entered_by: 'blc00001',
-      price_entered_at: '2026-02-15T10:00:00Z',
-      created_at: '2026-02-15T10:00:00Z',
-      updated_at: '2026-02-18T12:00:00Z',
-    },
-    {
-      id: 'ord-1005',
-      order_number: 'ORD-1005',
-      customer_id: 'cust-05',
-      customer: customers[4],
-      service_type: 'Flight Ticket',
-      status: 'Pending',
-      payment_type: 'Debt',
-      created_by: 'blc00001',
-      created_by_user_id: 'usr-admin-01',
-      assigned_staff: 'mohamed',
-      assigned_staff_id: 'usr-staff-01',
-      total_price: 680,
-      amount_paid: 500,
-      outstanding_debt: 180,
-      currency: 'USD',
-      service_details: {
-        route: 'Mogadishu (MGQ) -> Dubai (DXB)',
-        airline: 'Flydubai',
-      },
-      notes: 'Deposit of $500 paid. Remaining balance $180.',
-      price_entered_by: 'blc00001',
-      price_entered_at: '2026-02-23T11:45:00Z',
-      created_at: '2026-02-23T11:45:00Z',
-      updated_at: '2026-02-23T11:45:00Z',
-    },
-  ];
-
-  const payments: Payment[] = [
-    {
-      id: 'pay-01',
-      order_id: 'ord-1001',
-      amount: 200,
-      currency: 'USD',
-      payment_method: 'EVC Plus',
-      payment_note: 'Initial booking deposit',
-      received_by: 'mohamed',
-      payment_date: '2026-02-18T14:40:00Z',
-      created_at: '2026-02-18T14:40:00Z',
-    },
-    {
-      id: 'pay-02',
-      order_id: 'ord-1002',
-      amount: 320,
-      currency: 'USD',
-      payment_method: 'Zaad',
-      payment_note: 'Full payment for Dubai visa',
-      received_by: 'sarah',
-      payment_date: '2026-02-20T09:20:00Z',
-      created_at: '2026-02-20T09:20:00Z',
-    },
-    {
-      id: 'pay-03',
-      order_id: 'ord-1003',
-      amount: 780,
-      currency: 'USD',
-      payment_method: 'Bank Transfer',
-      payment_note: 'Package deposit',
-      received_by: 'sarah',
-      payment_date: '2026-02-22T16:15:00Z',
-      created_at: '2026-02-22T16:15:00Z',
-    },
-  ];
-
-  const transactions: Transaction[] = [
-    {
-      id: 'tx-01',
-      order_id: 'ord-1001',
-      customer_name: 'Ahmed Hassan Farah',
-      transaction_type: 'Payment Received',
-      previous_balance: 450,
-      payment_amount: 200,
-      new_balance: 250,
-      total_paid_before: 0,
-      total_paid_after: 200,
-      currency: 'USD',
-      changed_by: 'mohamed',
-      created_at: '2026-02-18T14:40:00Z',
-      notes: 'Initial booking deposit',
-    },
-    {
-      id: 'tx-02',
-      order_id: 'ord-1002',
-      customer_name: 'Khadija Omar Elmi',
-      transaction_type: 'Debt Fully Paid',
-      previous_balance: 320,
-      payment_amount: 320,
-      new_balance: 0,
-      total_paid_before: 0,
-      total_paid_after: 320,
-      currency: 'USD',
-      changed_by: 'sarah',
-      created_at: '2026-02-20T09:20:00Z',
-      notes: 'Full payment for Dubai visa',
-    },
-  ];
-
-  const conversations: Conversation[] = [
-    {
-      id: 'conv-01',
-      type: 'group',
-      title: 'Agency Operations & Ticketing',
-      status: 'open',
-      created_by: 'usr-admin-01',
-      created_by_username: 'blc00001',
-      participants: [
-        {
-          id: 'part-01',
-          conversation_id: 'conv-01',
-          user_id: 'usr-admin-01',
-          username: 'blc00001',
-          full_name: 'Hussein Mohamud Ali',
-          phone: '612483838',
-          joined_at: '2026-01-01T08:00:00Z',
-          participant_status: 'active',
-        },
-      ],
-      created_at: '2026-01-01T08:00:00Z',
-      updated_at: '2026-02-23T12:00:00Z',
-    },
-  ];
-
-  const messages: Message[] = [
-    {
-      id: 'msg-01',
-      conversation_id: 'conv-01',
-      sender_id: 'usr-admin-01',
-      sender_username: 'blc00001',
-      sender_name: 'Hussein Mohamud Ali',
-      message_text: 'Ku soo dhawaada nidaamka CRM-ka Balcad Travel Agency.',
-      created_at: '2026-02-23T12:00:00Z',
-    },
-  ];
-
-  const notifications: NotificationItem[] = [
-    {
-      id: 'notif-01',
-      type: 'order',
-      title: 'Order Status Confirmed',
-      message: 'Order ORD-1001 for Ahmed Hassan Farah has been confirmed.',
-      read: false,
-      created_at: '2026-02-19T10:00:00Z',
-      related_record_id: 'ord-1001',
-    },
-  ];
-
-  const activity_logs: ActivityLog[] = [
-    {
-      id: 'act-01',
-      user_id: 'usr-admin-01',
-      username: 'blc00001',
-      action: 'System Initialized',
-      entity_type: 'system',
-      details: 'Super Admin Hussein Mohamud Ali configured CRM data store.',
-      created_at: '2026-01-01T08:00:00Z',
-    },
-  ];
+    });
+  }
 
   return {
-    users,
-    customers,
-    orders,
-    payments,
-    transactions,
-    conversations,
-    messages,
-    notifications,
-    activity_logs,
-    cash_closures: [],
-  };
+    ...cloned,
+    users: usersWithPlain,
+    cash_closures: (cloned.cash_closures as unknown as CashCounterClosure[]) || [],
+  } as unknown as LocalDB;
 }
 
 class LocalCRMEngine {
@@ -394,25 +73,101 @@ class LocalCRMEngine {
 
   constructor() {
     this.db = this.loadDB();
+    this.ensureOrdersModificationsHistory();
+    this.saveDB();
+  }
+
+  private ensureOrdersModificationsHistory(): void {
+    if (!this.db.orders) return;
+    for (const ord of this.db.orders) {
+      if (!ord.modifications_history || ord.modifications_history.length === 0) {
+        ord.modifications_history = [];
+
+        // 1. Initial creation entry
+        ord.modifications_history.push({
+          id: `mod-${ord.id}-created`,
+          order_id: ord.id,
+          action_type: 'creation',
+          staff_username: ord.created_by,
+          timestamp: ord.created_at,
+          description: `Dalabka waxa diiwaan galiyay @${ord.created_by} (Initial creation). Wadarta: $${ord.total_price}, Hormaris: $${ord.amount_paid}, Deyn bilow ah: $${ord.outstanding_debt}`,
+          previous_debt: 0,
+          amount_changed: ord.outstanding_debt,
+          debt_balance_after: ord.outstanding_debt,
+          total_price_after: ord.total_price,
+          total_paid_after: ord.amount_paid,
+          reason: 'Diiwaangalinta dalabka',
+        });
+
+        // 2. Add any status changes
+        if (ord.status_history) {
+          for (const sh of ord.status_history) {
+            if (sh.new_status !== 'New') {
+              ord.modifications_history.push({
+                id: sh.id || `mod-${Date.now()}-${Math.random()}`,
+                order_id: ord.id,
+                action_type: 'status_change',
+                staff_username: sh.changed_by,
+                timestamp: sh.created_at,
+                description: `Xaaladda dalabka waxa wax ka beddelay @${sh.changed_by} -> "${sh.new_status}"${sh.reason ? ` (${sh.reason})` : ''}`,
+                previous_debt: ord.outstanding_debt,
+                amount_changed: 0,
+                debt_balance_after: ord.outstanding_debt,
+                total_price_after: ord.total_price,
+                total_paid_after: ord.amount_paid,
+                reason: sh.reason,
+              });
+            }
+          }
+        }
+
+        // 3. Add payments
+        const pays = this.db.payments.filter((p) => p.order_id === ord.id || p.order_id === ord.order_number);
+        let runningPaid = 0;
+        for (const p of pays) {
+          runningPaid += p.amount;
+          const remainingDebtAtPay = Math.max(0, ord.total_price - runningPaid);
+          ord.modifications_history.push({
+            id: p.id || `mod-pay-${Date.now()}`,
+            order_id: ord.id,
+            action_type: 'payment_received',
+            staff_username: p.received_by,
+            timestamp: p.created_at || `${p.payment_date}T12:00:00Z`,
+            description: `Lacag bixin $${p.amount} (${p.payment_method}) waxa qabtay @${p.received_by}. Deyn harka: $${remainingDebtAtPay}`,
+            previous_debt: remainingDebtAtPay + p.amount,
+            amount_changed: -p.amount,
+            debt_balance_after: remainingDebtAtPay,
+            total_price_after: ord.total_price,
+            total_paid_after: runningPaid,
+            reason: p.payment_note,
+          });
+        }
+      }
+    }
   }
 
   private loadDB(): LocalDB {
     try {
-      const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+      const stored = localStorage.getItem(LOCAL_STORAGE_KEY) || localStorage.getItem('balcad_crm_local_db_v3');
       if (stored) {
         const parsed = JSON.parse(stored);
-        const admin = parsed.users?.find((u: any) => u.role === 'super_admin');
-        if (admin) {
-          if (admin.username !== 'blc00001') {
-            admin.username = 'blc00001';
-            admin.profile.full_name = 'Hussein Mohamud Ali';
-            admin.password_plain = 'xuseen.50';
+        const hasRealDebtOrders = parsed.orders?.some(
+          (o: any) => o.id === 'ord-1791019001394' && o.modifications_history?.length > 0
+        );
+        if (hasRealDebtOrders && (parsed.orders?.length || 0) >= 15) {
+          const admin = parsed.users?.find((u: any) => u.role === 'super_admin');
+          if (admin) {
+            if (admin.username !== 'blc00001') {
+              admin.username = 'blc00001';
+              admin.profile.full_name = 'Hussein Mohamud Ali';
+              admin.password_plain = 'xuseen.50';
+            }
           }
+          if (!parsed.cash_closures) {
+            parsed.cash_closures = [];
+          }
+          return parsed;
         }
-        if (!parsed.cash_closures) {
-          parsed.cash_closures = [];
-        }
-        return parsed;
       }
     } catch {}
     const initial = createInitialLocalDB();
@@ -462,7 +217,11 @@ class LocalCRMEngine {
 
   private getCashCounterBalance(targetUsername?: string) {
     const active = this.getActiveUser();
-    const uname = (active.role === 'super_admin' && targetUsername && targetUsername !== 'All')
+    const isSuperAdmin = active.role === 'super_admin';
+    const dept = (active.profile?.department || '').toLowerCase();
+    const isFinance = dept.includes('finance') || dept.includes('account') || dept.includes('xisaab');
+    const canInspect = isSuperAdmin || isFinance;
+    const uname = (canInspect && targetUsername && targetUsername !== 'All')
       ? targetUsername.toLowerCase()
       : active.username.toLowerCase();
 
@@ -961,6 +720,11 @@ class LocalCRMEngine {
         cust = this.db.customers[0];
       }
 
+      const passportImg = body.passport_image || body.passport_photo || '';
+      if (passportImg) {
+        cust.passport_image = passportImg;
+      }
+
       cust.orders_count = (cust.orders_count || 0) + 1;
       cust.total_debt = (cust.total_debt || 0) + debt;
       cust.last_order_date = new Date().toISOString().split('T')[0];
@@ -987,11 +751,44 @@ class LocalCRMEngine {
         price_entered_at: new Date().toISOString(),
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
+        passport_image: passportImg,
+        modifications_history: [
+          {
+            id: `mod-${Date.now()}-1`,
+            order_id: `ord-${Date.now()}`,
+            action_type: 'creation',
+            staff_username: active.username,
+            timestamp: new Date().toISOString(),
+            description: `Dalabka waxa diiwaan galiyay @${active.username} (Adeegga: ${body.service_type || 'Flight Ticket'}). Wadarta: $${selling}, Hormaris: $${paid}, Deyn harka: $${debt}`,
+            previous_debt: 0,
+            amount_changed: debt,
+            debt_balance_after: debt,
+            total_price_after: selling,
+            total_paid_after: paid,
+            reason: 'Diiwaangelinta dalabka',
+          },
+        ],
       };
 
       this.db.orders.unshift(newOrder);
 
       if (paid > 0) {
+        if (!newOrder.modifications_history) newOrder.modifications_history = [];
+        newOrder.modifications_history.push({
+          id: `mod-${Date.now()}-pay`,
+          order_id: newOrder.id,
+          action_type: 'payment_received',
+          staff_username: active.username,
+          timestamp: new Date().toISOString(),
+          description: `Lacag hormaris ah $${paid} waxa qabtay @${active.username}. Deyn harka: $${debt}`,
+          previous_debt: selling,
+          amount_changed: -paid,
+          debt_balance_after: debt,
+          total_price_after: selling,
+          total_paid_after: paid,
+          reason: body.payment_note || 'Hormaris bilow ah',
+        });
+
         this.db.payments.unshift({
           id: `pay-${Date.now()}`,
           order_id: newOrder.id,
@@ -1090,6 +887,7 @@ class LocalCRMEngine {
       if (active.role !== 'super_admin') {
         throw new Error('You do not have permission to adjust financials.');
       }
+      const previousDebt = ord.outstanding_debt;
       if (body.new_price !== undefined) {
         ord.total_price = Number(body.new_price);
         ord.outstanding_debt = Math.max(0, ord.total_price - ord.amount_paid);
@@ -1099,6 +897,23 @@ class LocalCRMEngine {
       }
       ord.payment_type = ord.outstanding_debt > 0 ? 'Debt' : 'Paid';
       ord.updated_at = new Date().toISOString();
+
+      if (!ord.modifications_history) ord.modifications_history = [];
+      ord.modifications_history.push({
+        id: `mod-${Date.now()}`,
+        order_id: ord.id,
+        action_type: 'financial_adjustment',
+        staff_username: active.username,
+        timestamp: new Date().toISOString(),
+        description: `Sixitaan maaliyadeed waxaa sameeyay @${active.username}: ${body.reason || 'Financial adjustment'}. Deyn harka cusub: $${ord.outstanding_debt}`,
+        previous_debt: previousDebt,
+        amount_changed: ord.outstanding_debt - previousDebt,
+        debt_balance_after: ord.outstanding_debt,
+        total_price_after: ord.total_price,
+        total_paid_after: ord.amount_paid,
+        reason: body.reason,
+      });
+
       this.saveDB();
       return { message: 'Debt updated successfully', order: ord } as unknown as T;
     }
@@ -1134,25 +949,44 @@ class LocalCRMEngine {
       const ord = this.db.orders.find((o) => o.id === id || o.order_number === id);
       if (!ord) throw new Error('Order not found');
       const amount = Number(body.amount) || 0;
+      const previousBalance = ord.outstanding_debt;
       ord.amount_paid += amount;
       ord.outstanding_debt = Math.max(0, ord.total_price - ord.amount_paid);
       if (ord.outstanding_debt === 0) {
         ord.payment_type = 'Paid';
+        if (ord.status === 'Debt') ord.status = 'Completed';
       }
       ord.updated_at = new Date().toISOString();
 
+      const activeUser = this.getActiveUser();
       const payment: Payment = {
         id: `pay-${Date.now()}`,
         order_id: ord.id,
         amount,
         currency: 'USD',
-        payment_method: body.payment_method || 'EVC Plus',
+        payment_method: body.payment_method || 'Cash',
         payment_note: body.payment_note || body.notes || '',
-        received_by: this.getActiveUser().username,
-        payment_date: new Date().toISOString(),
+        received_by: activeUser.username,
+        payment_date: new Date().toISOString().split('T')[0],
         created_at: new Date().toISOString(),
       };
       this.db.payments.unshift(payment);
+
+      if (!ord.modifications_history) ord.modifications_history = [];
+      ord.modifications_history.push({
+        id: `mod-${Date.now()}`,
+        order_id: ord.id,
+        action_type: 'payment_received',
+        staff_username: activeUser.username,
+        timestamp: new Date().toISOString(),
+        description: `Lacag-bixin $${amount} waxa qabtay @${activeUser.username}. Deyn harka: $${ord.outstanding_debt}`,
+        previous_debt: previousBalance,
+        amount_changed: -amount,
+        debt_balance_after: ord.outstanding_debt,
+        total_price_after: ord.total_price,
+        total_paid_after: ord.amount_paid,
+        reason: body.payment_note || body.notes,
+      });
 
       // Record transaction
       this.db.transactions.unshift({
@@ -1257,8 +1091,8 @@ class LocalCRMEngine {
 
       const rows = debtOrders.map((ord) => {
         const cust = this.db.customers.find((c) => c.id === ord.customer_id) || ord.customer;
-        const pays = this.db.payments.filter((p) => p.order_id === ord.id);
-        const lastPay = pays.length ? pays[0] : null;
+        const pays = this.db.payments.filter((p) => p.order_id === ord.id || p.order_id === ord.order_number);
+        const lastPay = pays.length ? pays[pays.length - 1] : null;
 
         const orderDate = new Date(ord.created_at).getTime();
         const diffDays = Math.max(0, Math.floor((Date.now() - orderDate) / (1000 * 60 * 60 * 24)));
@@ -1269,6 +1103,16 @@ class LocalCRMEngine {
         } else if ((ord.amount_paid || 0) > 0) {
           debtStatus = 'Partially Paid';
         }
+
+        const staffSet = new Set<string>();
+        if (ord.created_by) staffSet.add(ord.created_by);
+        if (ord.assigned_staff && ord.assigned_staff !== 'Unassigned') staffSet.add(ord.assigned_staff);
+        (ord.modifications_history || []).forEach((m: any) => {
+          if (m.staff_username) staffSet.add(m.staff_username);
+        });
+        pays.forEach((p: any) => {
+          if (p.received_by) staffSet.add(p.received_by);
+        });
 
         return {
           order_id: ord.order_number,
@@ -1287,6 +1131,9 @@ class LocalCRMEngine {
           days_outstanding: diffDays,
           created_at: ord.created_at,
           payments: pays,
+          modifications_history: ord.modifications_history || [],
+          modifying_staff_count: staffSet.size,
+          modifying_staff_list: Array.from(staffSet),
         };
       });
 

@@ -14,6 +14,7 @@ import {
   LogOut,
   ChevronRight,
   Shield,
+  ShieldCheck,
   Briefcase,
 } from 'lucide-react';
 import { BalcadLogo } from '../BalcadLogo';
@@ -53,6 +54,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
       label: t('messages'),
       icon: MessageSquare,
       badge: unreadMessagesCount > 0 ? unreadMessagesCount : undefined,
+    },
+    {
+      id: 'debt_review',
+      label: t('debt_review'),
+      icon: ShieldCheck,
+      badgeText: 'Review',
     },
     { id: 'ar_report', label: t('ar_report'), icon: DollarSign },
     { id: 'transactions', label: t('recent_transactions'), icon: Receipt },
@@ -123,6 +130,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   {item.badge !== undefined && (
                     <span className="px-2 py-0.5 text-[11px] font-bold rounded-full bg-red-500 text-white shadow-sm">
                       {item.badge}
+                    </span>
+                  )}
+                  {(item as any).badgeText && (
+                    <span className="text-[10px] font-bold font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 uppercase tracking-wider">
+                      {(item as any).badgeText}
                     </span>
                   )}
                   {item.adminOnly && (

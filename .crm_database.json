@@ -45,7 +45,176 @@
       "last_cash_counter_closed_at": "2026-10-08T08:56:30.308Z"
     }
   ],
-  "customers": [],
+  "customers": [
+    {
+      "id": "cust-1791019001394",
+      "full_name": "Xuseen Cali Maxamed",
+      "phone": "618590999",
+      "email": "xuseen.cali@gmail.com",
+      "country": "Somalia",
+      "city": "Mogadishu",
+      "address": "Wadada Maka Al-Mukarama",
+      "created_at": "2026-10-03T09:16:41.394Z",
+      "updated_at": "2026-10-08T08:56:18.862Z",
+      "orders_count": 1,
+      "total_debt": 4550,
+      "last_order_date": "2026-10-03"
+    },
+    {
+      "id": "cust-1791017477922",
+      "full_name": "Faadumo Axmed Jaamac",
+      "phone": "615501050",
+      "email": "faadumo@gmail.com",
+      "country": "Somalia",
+      "city": "Mogadishu",
+      "address": "Wadada Maka Al-Mukarama",
+      "created_at": "2026-10-03T08:51:17.922Z",
+      "updated_at": "2026-10-17T07:03:08.543Z",
+      "orders_count": 1,
+      "total_debt": 4050,
+      "last_order_date": "2026-10-03"
+    },
+    {
+      "id": "cust-01",
+      "full_name": "Ahmed Hassan Farah",
+      "phone": "0615112233",
+      "email": "ahmed.farah@gmail.com",
+      "country": "Somalia",
+      "city": "Mogadishu",
+      "address": "Wadada Maka Al-Mukarama",
+      "created_at": "2026-04-26T09:00:00Z",
+      "updated_at": "2026-04-26T09:30:00Z",
+      "orders_count": 2,
+      "total_debt": 0,
+      "last_order_date": "2026-04-26"
+    },
+    {
+      "id": "cust-02",
+      "full_name": "Faduma Ali Warsame",
+      "phone": "0615445566",
+      "email": "faduma.ali@gmail.com",
+      "country": "Somalia",
+      "city": "Hargeisa",
+      "address": "Wadada Maka Al-Mukarama",
+      "created_at": "2026-04-26T10:15:00Z",
+      "updated_at": "2026-04-26T10:15:00Z",
+      "orders_count": 2,
+      "total_debt": 0,
+      "last_order_date": "2026-04-26"
+    },
+    {
+      "id": "cust-03",
+      "full_name": "Hassan Omar Diriye",
+      "phone": "0615778899",
+      "email": "hassan.omar@gmail.com",
+      "country": "Somalia",
+      "city": "Mogadishu",
+      "address": "Wadada Maka Al-Mukarama",
+      "created_at": "2026-04-25T14:20:00Z",
+      "updated_at": "2026-04-25T15:00:00Z",
+      "orders_count": 1,
+      "total_debt": 0,
+      "last_order_date": "2026-04-25"
+    },
+    {
+      "id": "cust-04",
+      "full_name": "Khadija Mohamed Nur",
+      "phone": "0615223344",
+      "email": "khadija.nur@gmail.com",
+      "country": "Somalia",
+      "city": "Garowe",
+      "address": "Wadada Maka Al-Mukarama",
+      "created_at": "2026-04-24T11:00:00Z",
+      "updated_at": "2026-04-24T11:45:00Z",
+      "orders_count": 2,
+      "total_debt": 1300,
+      "last_order_date": "2026-04-24"
+    },
+    {
+      "id": "cust-05",
+      "full_name": "Ali Ahmed Jama",
+      "phone": "0615998877",
+      "email": "ali.jama@gmail.com",
+      "country": "Somalia",
+      "city": "Kismayo",
+      "address": "Wadada Maka Al-Mukarama",
+      "created_at": "2026-04-24T13:00:00Z",
+      "updated_at": "2026-04-24T14:10:00Z",
+      "orders_count": 1,
+      "total_debt": 0,
+      "last_order_date": "2026-04-24"
+    },
+    {
+      "id": "cust-06",
+      "full_name": "Sahra Yusuf Gedi",
+      "phone": "0615667788",
+      "email": "sahra.gedi@gmail.com",
+      "country": "Somalia",
+      "city": "Mogadishu",
+      "address": "Wadada Maka Al-Mukarama",
+      "created_at": "2026-04-22T09:30:00Z",
+      "updated_at": "2026-04-22T09:30:00Z",
+      "orders_count": 1,
+      "total_debt": 450,
+      "last_order_date": "2026-04-22"
+    },
+    {
+      "id": "cust-07",
+      "full_name": "Mohamud Abdi Elmi",
+      "phone": "0615334455",
+      "email": "mohamud.elmi@gmail.com",
+      "country": "Somalia",
+      "city": "Mogadishu",
+      "address": "Wadada Maka Al-Mukarama",
+      "created_at": "2026-04-21T15:00:00Z",
+      "updated_at": "2026-04-21T16:00:00Z",
+      "orders_count": 2,
+      "total_debt": 0,
+      "last_order_date": "2026-04-22"
+    },
+    {
+      "id": "cust-08",
+      "full_name": "Maryan Abdi Warsame",
+      "phone": "0615889900",
+      "email": "maryan.warsame@gmail.com",
+      "country": "Somalia",
+      "city": "Mogadishu",
+      "address": "Wadada Maka Al-Mukarama",
+      "created_at": "2026-04-20T11:20:00Z",
+      "updated_at": "2026-04-20T11:20:00Z",
+      "orders_count": 1,
+      "total_debt": 0,
+      "last_order_date": "2026-04-20"
+    },
+    {
+      "id": "cust-09",
+      "full_name": "Abdirahman Sheikh",
+      "phone": "0615123456",
+      "email": "abdirahman.sheikh@gmail.com",
+      "country": "Somalia",
+      "city": "Mogadishu",
+      "address": "Wadada Maka Al-Mukarama",
+      "created_at": "2026-04-18T10:00:00Z",
+      "updated_at": "2026-04-18T10:30:00Z",
+      "orders_count": 1,
+      "total_debt": 1100,
+      "last_order_date": "2026-04-18"
+    },
+    {
+      "id": "cust-10",
+      "full_name": "Amina Hussein Mire",
+      "phone": "0615987654",
+      "email": "amina.mire@gmail.com",
+      "country": "Somalia",
+      "city": "Mogadishu",
+      "address": "Wadada Maka Al-Mukarama",
+      "created_at": "2026-04-16T12:00:00Z",
+      "updated_at": "2026-04-16T12:00:00Z",
+      "orders_count": 1,
+      "total_debt": 0,
+      "last_order_date": "2026-04-16"
+    }
+  ],
   "orders": [
     {
       "id": "ord-1791019001394",
@@ -106,7 +275,8 @@
           "debt_balance_after": 4950,
           "total_price_after": 5000,
           "total_paid_after": 50,
-          "reason": "Diiwaangalinta dalabka"
+          "reason": "Diiwaangalinta dalabka",
+          "amount_changed": 4950
         },
         {
           "id": "osh-1791019001394",
@@ -119,7 +289,8 @@
           "debt_balance_after": 4950,
           "total_price_after": 5000,
           "total_paid_after": 50,
-          "reason": "Initial order creation"
+          "reason": "Initial order creation",
+          "amount_changed": 0
         },
         {
           "id": "PAY-1006",
@@ -132,7 +303,8 @@
           "debt_balance_after": 4950,
           "total_price_after": 5000,
           "total_paid_after": 50,
-          "reason": "618590999"
+          "reason": "618590999",
+          "amount_changed": -50
         },
         {
           "id": "mod-1791449749353",
@@ -145,7 +317,8 @@
           "debt_balance_after": 4800,
           "total_price_after": 5000,
           "total_paid_after": 200,
-          "reason": "Tijaabo bixin cusub"
+          "reason": "Tijaabo bixin cusub",
+          "amount_changed": -150
         },
         {
           "id": "mod-1791449778862",
@@ -158,7 +331,8 @@
           "debt_balance_after": 4550,
           "total_price_after": 5000,
           "total_paid_after": 450,
-          "reason": "Cumar collected 250 cash"
+          "reason": "Cumar collected 250 cash",
+          "amount_changed": -250
         }
       ]
     },
@@ -174,8 +348,8 @@
       "assigned_staff": null,
       "assigned_staff_id": null,
       "total_price": 5000,
-      "amount_paid": 500,
-      "outstanding_debt": 4500,
+      "amount_paid": 950,
+      "outstanding_debt": 4050,
       "currency": "USD",
       "service_details": {
         "departure_city": "Mogadishu (MGQ)",
@@ -194,7 +368,7 @@
       "price_entered_by": "blc00001",
       "price_entered_at": "2026-10-03T08:51:17.922Z",
       "created_at": "2026-10-03T08:51:17.922Z",
-      "updated_at": "2026-10-03T08:51:17.922Z",
+      "updated_at": "2026-10-17T07:03:08.543Z",
       "status_history": [
         {
           "id": "osh-1791017477922",
@@ -219,7 +393,8 @@
           "debt_balance_after": 4500,
           "total_price_after": 5000,
           "total_paid_after": 500,
-          "reason": "Diiwaangalinta dalabka"
+          "reason": "Diiwaangalinta dalabka",
+          "amount_changed": 4500
         },
         {
           "id": "osh-1791017477922",
@@ -232,7 +407,8 @@
           "debt_balance_after": 4500,
           "total_price_after": 5000,
           "total_paid_after": 500,
-          "reason": "Initial order creation"
+          "reason": "Initial order creation",
+          "amount_changed": 0
         },
         {
           "id": "PAY-1005",
@@ -245,7 +421,22 @@
           "debt_balance_after": 4500,
           "total_price_after": 5000,
           "total_paid_after": 500,
-          "reason": "Ok"
+          "reason": "Ok",
+          "amount_changed": -500
+        },
+        {
+          "id": "mod-1792220588543",
+          "order_id": "ord-1791017477922",
+          "action_type": "payment_received",
+          "staff_username": "blc00002",
+          "timestamp": "2026-10-17T07:03:08.543Z",
+          "description": "Lacag-bixin $450 (Cash) waxa qabtay @blc00002. Deyn harka: $4050",
+          "previous_debt": 4500,
+          "amount_changed": -450,
+          "debt_balance_after": 4050,
+          "total_price_after": 5000,
+          "total_paid_after": 950,
+          "reason": ""
         }
       ]
     },
@@ -299,7 +490,8 @@
           "debt_balance_after": 0,
           "total_price_after": 1200,
           "total_paid_after": 1200,
-          "reason": "Diiwaangalinta dalabka"
+          "reason": "Diiwaangalinta dalabka",
+          "amount_changed": 0
         },
         {
           "id": "PAY-1001",
@@ -312,7 +504,8 @@
           "debt_balance_after": 0,
           "total_price_after": 1200,
           "total_paid_after": 1200,
-          "reason": "Premier Bank transfer #PB884930"
+          "reason": "Premier Bank transfer #PB884930",
+          "amount_changed": -1200
         }
       ]
     },
@@ -361,7 +554,8 @@
           "debt_balance_after": 0,
           "total_price_after": 850,
           "total_paid_after": 850,
-          "reason": "Diiwaangalinta dalabka"
+          "reason": "Diiwaangalinta dalabka",
+          "amount_changed": 0
         },
         {
           "id": "PAY-1002",
@@ -374,7 +568,8 @@
           "debt_balance_after": 0,
           "total_price_after": 850,
           "total_paid_after": 850,
-          "reason": "EVC Plus reference #77382940"
+          "reason": "EVC Plus reference #77382940",
+          "amount_changed": -850
         }
       ]
     },
@@ -420,7 +615,8 @@
           "debt_balance_after": 0,
           "total_price_after": 650,
           "total_paid_after": 650,
-          "reason": "Diiwaangalinta dalabka"
+          "reason": "Diiwaangalinta dalabka",
+          "amount_changed": 0
         }
       ]
     },
@@ -464,7 +660,8 @@
           "debt_balance_after": 1300,
           "total_price_after": 2300,
           "total_paid_after": 1000,
-          "reason": "Diiwaangalinta dalabka"
+          "reason": "Diiwaangalinta dalabka",
+          "amount_changed": 1300
         },
         {
           "id": "PAY-1003",
@@ -477,7 +674,8 @@
           "debt_balance_after": 1300,
           "total_price_after": 2300,
           "total_paid_after": 1000,
-          "reason": "Initial partial deposit at main counter"
+          "reason": "Initial partial deposit at main counter",
+          "amount_changed": -1000
         }
       ]
     },
@@ -528,7 +726,8 @@
           "debt_balance_after": 0,
           "total_price_after": 980,
           "total_paid_after": 980,
-          "reason": "Diiwaangalinta dalabka"
+          "reason": "Diiwaangalinta dalabka",
+          "amount_changed": 0
         }
       ]
     },
@@ -576,7 +775,8 @@
           "debt_balance_after": 450,
           "total_price_after": 450,
           "total_paid_after": 0,
-          "reason": "Diiwaangalinta dalabka"
+          "reason": "Diiwaangalinta dalabka",
+          "amount_changed": 450
         }
       ]
     },
@@ -620,7 +820,8 @@
           "debt_balance_after": 0,
           "total_price_after": 120,
           "total_paid_after": 120,
-          "reason": "Diiwaangalinta dalabka"
+          "reason": "Diiwaangalinta dalabka",
+          "amount_changed": 0
         }
       ]
     },
@@ -670,7 +871,8 @@
           "debt_balance_after": 0,
           "total_price_after": 550,
           "total_paid_after": 550,
-          "reason": "Diiwaangalinta dalabka"
+          "reason": "Diiwaangalinta dalabka",
+          "amount_changed": 0
         }
       ]
     },
@@ -714,7 +916,8 @@
           "debt_balance_after": 1100,
           "total_price_after": 1800,
           "total_paid_after": 700,
-          "reason": "Diiwaangalinta dalabka"
+          "reason": "Diiwaangalinta dalabka",
+          "amount_changed": 1100
         },
         {
           "id": "PAY-1004",
@@ -727,7 +930,8 @@
           "debt_balance_after": 1100,
           "total_price_after": 1800,
           "total_paid_after": 700,
-          "reason": "Deposit installment via Zaad service"
+          "reason": "Deposit installment via Zaad service",
+          "amount_changed": -700
         }
       ]
     },
@@ -772,7 +976,8 @@
           "debt_balance_after": 0,
           "total_price_after": 950,
           "total_paid_after": 950,
-          "reason": "Diiwaangalinta dalabka"
+          "reason": "Diiwaangalinta dalabka",
+          "amount_changed": 0
         }
       ]
     },
@@ -822,7 +1027,8 @@
           "debt_balance_after": 0,
           "total_price_after": 620,
           "total_paid_after": 620,
-          "reason": "Diiwaangalinta dalabka"
+          "reason": "Diiwaangalinta dalabka",
+          "amount_changed": 0
         }
       ]
     },
@@ -869,7 +1075,8 @@
           "debt_balance_after": 0,
           "total_price_after": 350,
           "total_paid_after": 350,
-          "reason": "Diiwaangalinta dalabka"
+          "reason": "Diiwaangalinta dalabka",
+          "amount_changed": 0
         }
       ]
     },
@@ -913,7 +1120,8 @@
           "debt_balance_after": 0,
           "total_price_after": 2600,
           "total_paid_after": 2600,
-          "reason": "Diiwaangalinta dalabka"
+          "reason": "Diiwaangalinta dalabka",
+          "amount_changed": 0
         }
       ]
     },
@@ -956,7 +1164,8 @@
           "debt_balance_after": 0,
           "total_price_after": 80,
           "total_paid_after": 80,
-          "reason": "Diiwaangalinta dalabka"
+          "reason": "Diiwaangalinta dalabka",
+          "amount_changed": 0
         }
       ]
     }
@@ -1049,9 +1258,36 @@
       "received_by": "blc00002",
       "payment_date": "2026-10-08",
       "created_at": "2026-10-08T08:56:18.862Z"
+    },
+    {
+      "id": "PAY-1009",
+      "order_id": "ord-1791017477922",
+      "amount": 450,
+      "currency": "USD",
+      "payment_method": "Cash",
+      "payment_note": "",
+      "received_by": "blc00002",
+      "payment_date": "2026-10-17",
+      "created_at": "2026-10-17T07:03:08.543Z"
     }
   ],
   "transactions": [
+    {
+      "id": "TRX-1012",
+      "order_id": "BAL-2026-00015",
+      "customer_name": "Customer",
+      "payment_id": "PAY-1009",
+      "transaction_type": "Partial Payment",
+      "previous_balance": 4500,
+      "payment_amount": 450,
+      "new_balance": 4050,
+      "total_paid_before": 500,
+      "total_paid_after": 950,
+      "currency": "USD",
+      "changed_by": "blc00002",
+      "created_at": "2026-10-17T07:03:08.543Z",
+      "notes": "Payment recorded by blc00002"
+    },
     {
       "id": "TRX-1011",
       "order_id": "cls-1791449790308",
@@ -1302,7 +1538,7 @@
     {
       "id": "conv-01",
       "type": "direct",
-      "status": "closed",
+      "status": "open",
       "created_by": "usr-admin-01",
       "created_by_username": "blc00001",
       "created_at": "2026-04-25T10:00:00Z",
@@ -1485,6 +1721,16 @@
   ],
   "notifications": [
     {
+      "id": "notif-1792220588546",
+      "type": "payment",
+      "title": "Payment Received",
+      "message": "Payment of $450 received for order BAL-2026-00015 by blc00002. Balance: $4050",
+      "related_record_id": "BAL-2026-00015",
+      "user_id": "all",
+      "read": false,
+      "created_at": "2026-10-17T07:03:08.546Z"
+    },
+    {
       "id": "notif-1791449790331",
       "type": "cash_closure",
       "title": "Xisaab Xir Sanduuqa: @blc00002 ($300)",
@@ -1626,6 +1872,23 @@
     }
   ],
   "activity_logs": [
+    {
+      "id": "act-1792220588543-546",
+      "user_id": "usr-staff-1790960387058",
+      "username": "blc00002",
+      "action": "Payment Received",
+      "entity_type": "payment",
+      "entity_id": "PAY-1009",
+      "details": "Financial update by: blc00002 | Payment of $450 for BAL-2026-00015. Remaining debt: $4050",
+      "previous_value": {
+        "debt": 4500
+      },
+      "new_value": {
+        "debt": 4050,
+        "total_paid": 950
+      },
+      "created_at": "2026-10-17T07:03:08.543Z"
+    },
     {
       "id": "act-1791466682093-793",
       "user_id": "usr-admin-01",
