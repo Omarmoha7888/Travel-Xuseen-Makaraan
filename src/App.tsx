@@ -92,12 +92,7 @@ const MainLayout: React.FC = () => {
           onToggleMobileSidebar={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
           onGlobalSearch={(q) => {
             setGlobalSearch(q);
-            const lower = q.trim().toLowerCase();
-            if (lower === 'review' || lower === 'audit' || lower === 'deyn review' || lower === 'qeybta review') {
-              setCurrentTab('debt_review');
-            } else if (q.trim() && currentTab !== 'orders') {
-              setCurrentTab('orders');
-            }
+
           }}
           searchQuery={globalSearch}
           onNavigateTab={handleNavigateTab}
