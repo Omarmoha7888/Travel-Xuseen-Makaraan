@@ -145,7 +145,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Quick Review Navigation Button */}
         {onNavigateTab && (
 
-        )}
+        
 
 
         
