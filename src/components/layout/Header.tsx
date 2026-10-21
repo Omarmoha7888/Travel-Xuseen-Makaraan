@@ -140,14 +140,9 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* Right Controls */}
-      <div className="flex items-center gap-2 sm:gap-3">
-        {/* Quick Review Navigation Button */}
-        {onNavigateTab && (
+      
 
-        
-
-
+      
         
 
         {/* Date Display */}
