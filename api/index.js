@@ -30330,12 +30330,6 @@ app.use((req, res, next) => {
   }
   next();
 });
-app.use((req, _res, next) => {
-  if (req.url && !req.url.startsWith("/api") && !req.url.startsWith("/_") && !req.url.startsWith("/assets") && !req.url.startsWith("/favicon")) {
-    req.url = "/api" + (req.url.startsWith("/") ? req.url : "/" + req.url);
-  }
-  next();
-});
 app.use(import_express.default.json({ limit: "50mb" }));
 app.use(import_express.default.urlencoded({ extended: true, limit: "50mb" }));
 app.use((req, _res, next) => {

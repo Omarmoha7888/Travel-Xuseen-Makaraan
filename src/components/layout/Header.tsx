@@ -14,7 +14,6 @@ import {
   Shield,
   Briefcase,
   KeyRound,
-  ShieldCheck,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -140,10 +139,10 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-        
-  
-    {/* Date Display */}
-       <div className="hidden xl:flex items-center gap-1.5 text-xs text-slate-400 font-mono bg-slate-900/50 px-3 py-1.5 rounded-lg border border-slate-800">
+      {/* Right Controls */}
+      <div className="flex items-center gap-2 sm:gap-3">
+        {/* Date Display */}
+        <div className="hidden xl:flex items-center gap-1.5 text-xs text-slate-400 font-mono bg-slate-900/50 px-3 py-1.5 rounded-lg border border-slate-800">
           <Calendar className="w-3.5 h-3.5 text-amber-400" />
           <span>{currentDateFormatted}</span>
         </div>
