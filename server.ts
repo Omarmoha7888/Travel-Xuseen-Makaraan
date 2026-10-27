@@ -277,16 +277,33 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 // URL normalization for serverless functions on Vercel
 app.use((req: Request, _res: Response, next: NextFunction) => {
   if (process.env.VERCEL) {
-    const matched = (req.headers['x-matched-path'] || req.headers['x-vercel-matched-path']) as string;
-    if (matched && matched.startsWith('/api/')) {
-      req.url = matched;
-    } else if (req.url && (req.url === '/api/index.js' || req.url === '/api/index' || req.url === '/api')) {
-      const original = (req as any).originalUrl;
-      if (original && original.startsWith('/api/')) {
-        req.url = original;
+    const rawUrl = req.url || '';
+    const [pathname, search] = rawUrl.split('?');
+    const params = new URLSearchParams(search || '');
+
+    // 1. Check if path was passed via vercel.json rewrite: /api/index.js?path=$1
+    const pathParam = params.get('path');
+    if (pathParam) {
+      params.delete('path');
+      const restQuery = params.toString();
+      req.url = `/api/${pathParam.replace(/^\/+/, '')}${restQuery ? `?${restQuery}` : ''}`;
+    } else {
+      // 2. Check x-now-route-matches / x-matched-path
+      const routeMatches = req.headers['x-now-route-matches'] as string;
+      if (routeMatches) {
+        const matchParams = new URLSearchParams(routeMatches);
+        const matchSub = matchParams.get('1') || matchParams.get('path');
+        if (matchSub) {
+          req.url = `/api/${matchSub.replace(/^\/+/, '')}`;
+        }
+      } else {
+        const matched = (req.headers['x-matched-path'] || req.headers['x-vercel-matched-path']) as string;
+        if (matched && matched.startsWith('/api/') && matched !== '/api/index.js' && matched !== '/api/index') {
+          req.url = matched;
+        } else if (pathname && !pathname.startsWith('/api')) {
+          req.url = `/api/${pathname.replace(/^\/+/, '')}${search ? `?${search}` : ''}`;
+        }
       }
-    } else if (req.url && !req.url.startsWith('/api')) {
-      req.url = `/api${req.url.startsWith('/') ? req.url : `/${req.url}`}`;
     }
   }
   next();
@@ -1224,6 +1241,13 @@ app.post('/api/customer-requests', (req: Request, res: Response) => {
   });
 });
 
+// Explicit 404 handler for unmatched /api routes so requests never hang on Vercel
+app.use('/api', (_req: Request, res: Response) => {
+  if (!res.headersSent) {
+    res.status(404).json({ error: 'Endpoint not found.' });
+  }
+});
+
 // Global Express Error Handler
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   console.error('Unhandled server error:', err);
@@ -1237,8 +1261,16 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
 // -------------------------------------------------------------
 // VITE DEV SERVER / STANDALONE PRODUCTION SERVER
 // -------------------------------------------------------------
+const isServerlessRuntime = Boolean(
+  process.env.VERCEL ||
+  process.env.VERCEL_ENV ||
+  process.env.NOW_REGION ||
+  process.env.AWS_LAMBDA_FUNCTION_NAME ||
+  process.env.LAMBDA_TASK_ROOT
+);
+
 async function startServer() {
-  if (process.env.VERCEL) {
+  if (isServerlessRuntime) {
     return; // Standalone server loop is not used in Vercel Serverless environment
   }
 
@@ -1263,7 +1295,7 @@ async function startServer() {
   });
 }
 
-if (!process.env.VERCEL) {
+if (!isServerlessRuntime) {
   startServer().catch((err) => {
     console.error('Failed to start CRM server:', err);
   });

@@ -7,7 +7,7 @@
       "status": "active",
       "failed_login_attempts": 0,
       "created_at": "2026-01-01T08:00:00Z",
-      "last_login": "2026-10-08T13:38:02.087Z",
+      "last_login": "2026-10-27T12:55:44.479Z",
       "password_hash": "$2b$10$EJWLq6jFl3fK1SGvEaO9PukO1AfM.uIdwHrjf7Cpl5Y/14.YqlNpu",
       "profile": {
         "id": "prof-01",
@@ -629,7 +629,7 @@
       "payment_type": "Debt",
       "created_by": "blc00001",
       "created_by_user_id": "usr-admin-01",
-      "assigned_staff": "mohamed",
+      "assigned_staff": "sarah",
       "assigned_staff_id": "usr-staff-01",
       "total_price": 2300,
       "amount_paid": 1000,
@@ -647,7 +647,7 @@
       "price_entered_by": "blc00001",
       "price_entered_at": "2026-04-24T11:00:00Z",
       "created_at": "2026-04-24T11:00:00Z",
-      "updated_at": "2026-04-24T11:45:00Z",
+      "updated_at": "2026-10-27T13:00:53.802Z",
       "modifications_history": [
         {
           "id": "mod-ord-04-created",
@@ -676,6 +676,52 @@
           "total_paid_after": 1000,
           "reason": "Initial partial deposit at main counter",
           "amount_changed": -1000
+        },
+        {
+          "id": "mod-1793106039504",
+          "order_id": "ord-04",
+          "action_type": "assignment",
+          "staff_username": "blc00001",
+          "timestamp": "2026-10-27T13:00:39.504Z",
+          "description": "Shaqaalaha waxa beddelay @blc00001: @mohamed -> @admin",
+          "previous_debt": 1300,
+          "debt_balance_after": 1300,
+          "total_price_after": 2300,
+          "total_paid_after": 1000,
+          "reason": ""
+        },
+        {
+          "id": "mod-1793106053802",
+          "order_id": "ord-04",
+          "action_type": "assignment",
+          "staff_username": "blc00001",
+          "timestamp": "2026-10-27T13:00:53.802Z",
+          "description": "Shaqaalaha waxa beddelay @blc00001: @admin -> @sarah (Ok)",
+          "previous_debt": 1300,
+          "debt_balance_after": 1300,
+          "total_price_after": 2300,
+          "total_paid_after": 1000,
+          "reason": "Ok"
+        }
+      ],
+      "assignment_history": [
+        {
+          "id": "oah-1793106039504",
+          "order_id": "ord-04",
+          "previous_employee": "mohamed",
+          "new_employee": "admin",
+          "changed_by": "blc00001",
+          "reason": "",
+          "created_at": "2026-10-27T13:00:39.504Z"
+        },
+        {
+          "id": "oah-1793106053802",
+          "order_id": "ord-04",
+          "previous_employee": "admin",
+          "new_employee": "sarah",
+          "changed_by": "blc00001",
+          "reason": "Ok",
+          "created_at": "2026-10-27T13:00:53.802Z"
         }
       ]
     },
@@ -1721,6 +1767,26 @@
   ],
   "notifications": [
     {
+      "id": "notif-1793106053806",
+      "type": "assignment",
+      "title": "Order Assigned to You",
+      "message": "Order BAL-2026-00004 has been assigned to you by blc00001.",
+      "related_record_id": "BAL-2026-00004",
+      "user_id": "all",
+      "read": false,
+      "created_at": "2026-10-27T13:00:53.806Z"
+    },
+    {
+      "id": "notif-1793106039508",
+      "type": "assignment",
+      "title": "Order Assigned to You",
+      "message": "Order BAL-2026-00004 has been assigned to you by blc00001.",
+      "related_record_id": "BAL-2026-00004",
+      "user_id": "all",
+      "read": false,
+      "created_at": "2026-10-27T13:00:39.508Z"
+    },
+    {
       "id": "notif-1792220588546",
       "type": "payment",
       "title": "Payment Received",
@@ -1872,6 +1938,50 @@
     }
   ],
   "activity_logs": [
+    {
+      "id": "act-1793106053802-653",
+      "user_id": "usr-admin-01",
+      "username": "blc00001",
+      "action": "Order Assigned",
+      "entity_type": "order",
+      "entity_id": "BAL-2026-00004",
+      "details": "Assigned by: blc00001 | Staff changed from admin to sarah",
+      "previous_value": "admin",
+      "new_value": "sarah",
+      "created_at": "2026-10-27T13:00:53.802Z"
+    },
+    {
+      "id": "act-1793106039504-588",
+      "user_id": "usr-admin-01",
+      "username": "blc00001",
+      "action": "Order Assigned",
+      "entity_type": "order",
+      "entity_id": "BAL-2026-00004",
+      "details": "Assigned by: blc00001 | Staff changed from mohamed to admin",
+      "previous_value": "mohamed",
+      "new_value": "admin",
+      "created_at": "2026-10-27T13:00:39.504Z"
+    },
+    {
+      "id": "act-1793105744483-246",
+      "user_id": "usr-admin-01",
+      "username": "blc00001",
+      "action": "Login (OTP Verified)",
+      "entity_type": "auth",
+      "entity_id": "usr-admin-01",
+      "details": "Super Admin blc00001 successfully verified email OTP and entered portal",
+      "created_at": "2026-10-27T12:55:44.483Z"
+    },
+    {
+      "id": "act-1793105708679-536",
+      "user_id": "usr-admin-01",
+      "username": "blc00001",
+      "action": "OTP Dispatched",
+      "entity_type": "auth",
+      "entity_id": "usr-admin-01",
+      "details": "One-Time Password (OTP) dispatched to xu***0@gmail.com for user blc00001",
+      "created_at": "2026-10-27T12:55:08.679Z"
+    },
     {
       "id": "act-1792220588543-546",
       "user_id": "usr-staff-1790960387058",

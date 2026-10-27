@@ -28548,7 +28548,7 @@ var initialDatabaseSnapshot = {
 };
 
 // src/server/dataStore.ts
-var DB_STORAGE_FILE = process.env.VERCEL ? path.join("/tmp", ".crm_database.json") : path.join(process.cwd(), ".crm_database.json");
+var DB_STORAGE_FILE = "1" ? path.join("/tmp", ".crm_database.json") : path.join(process.cwd(), ".crm_database.json");
 var DatabaseManager = class {
   constructor() {
     this.db = structuredClone(initialDatabaseSnapshot);
@@ -30130,7 +30130,7 @@ var DatabaseManager = class {
 var dbManager = new DatabaseManager();
 
 // server.ts
-var SESSIONS_FILE = process.env.VERCEL ? path2.join("/tmp", ".sessions_cache.json") : path2.join(process.cwd(), ".sessions_cache.json");
+var SESSIONS_FILE = "1" ? path2.join("/tmp", ".sessions_cache.json") : path2.join(process.cwd(), ".sessions_cache.json");
 var HMAC_SECRET = process.env.SESSION_SECRET || "balcad-crm-secure-session-key-2026";
 var sessions = /* @__PURE__ */ new Map();
 function loadSessionsFromDisk() {
@@ -30333,17 +30333,31 @@ app.use((req, res, next) => {
 app.use(import_express.default.json({ limit: "50mb" }));
 app.use(import_express.default.urlencoded({ extended: true, limit: "50mb" }));
 app.use((req, _res, next) => {
-  if (process.env.VERCEL) {
-    const matched = req.headers["x-matched-path"] || req.headers["x-vercel-matched-path"];
-    if (matched && matched.startsWith("/api/")) {
-      req.url = matched;
-    } else if (req.url && (req.url === "/api/index.js" || req.url === "/api/index" || req.url === "/api")) {
-      const original = req.originalUrl;
-      if (original && original.startsWith("/api/")) {
-        req.url = original;
+  if ("1") {
+    const rawUrl = req.url || "";
+    const [pathname, search] = rawUrl.split("?");
+    const params = new URLSearchParams(search || "");
+    const pathParam = params.get("path");
+    if (pathParam) {
+      params.delete("path");
+      const restQuery = params.toString();
+      req.url = `/api/${pathParam.replace(/^\/+/, "")}${restQuery ? `?${restQuery}` : ""}`;
+    } else {
+      const routeMatches = req.headers["x-now-route-matches"];
+      if (routeMatches) {
+        const matchParams = new URLSearchParams(routeMatches);
+        const matchSub = matchParams.get("1") || matchParams.get("path");
+        if (matchSub) {
+          req.url = `/api/${matchSub.replace(/^\/+/, "")}`;
+        }
+      } else {
+        const matched = req.headers["x-matched-path"] || req.headers["x-vercel-matched-path"];
+        if (matched && matched.startsWith("/api/") && matched !== "/api/index.js" && matched !== "/api/index") {
+          req.url = matched;
+        } else if (pathname && !pathname.startsWith("/api")) {
+          req.url = `/api/${pathname.replace(/^\/+/, "")}${search ? `?${search}` : ""}`;
+        }
       }
-    } else if (req.url && !req.url.startsWith("/api")) {
-      req.url = `/api${req.url.startsWith("/") ? req.url : `/${req.url}`}`;
     }
   }
   next();
@@ -31070,6 +31084,11 @@ app.post("/api/customer-requests", (req, res) => {
     reference_id: draftId
   });
 });
+app.use("/api", (_req, res) => {
+  if (!res.headersSent) {
+    res.status(404).json({ error: "Endpoint not found." });
+  }
+});
 app.use((err, _req, res, _next) => {
   console.error("Unhandled server error:", err);
   if (!res.headersSent) {
@@ -31078,8 +31097,11 @@ app.use((err, _req, res, _next) => {
     });
   }
 });
+var isServerlessRuntime = Boolean(
+  "1"
+);
 async function startServer() {
-  if (process.env.VERCEL) {
+  if (isServerlessRuntime) {
     return;
   }
   const serverPort = PORT;
@@ -31100,7 +31122,7 @@ async function startServer() {
     console.log(`Balcad Travel Agency CRM Server running on port ${serverPort}`);
   });
 }
-if (!process.env.VERCEL) {
+if (!isServerlessRuntime) {
   startServer().catch((err) => {
     console.error("Failed to start CRM server:", err);
   });
