@@ -1064,7 +1064,7 @@ class DatabaseManager {
       try {
         const raw = fs.readFileSync(DB_STORAGE_FILE, 'utf-8');
         const parsed = JSON.parse(raw);
-        if (parsed && Array.isArray(parsed.orders) && parsed.orders.length > 0) {
+        if (parsed && Array.isArray(parsed.orders) && Array.isArray(parsed.users)) {
           this.db = parsed;
           loaded = true;
         }
@@ -1080,7 +1080,7 @@ class DatabaseManager {
         try {
           const raw = fs.readFileSync(rootDbFile, 'utf-8');
           const parsed = JSON.parse(raw);
-          if (parsed && Array.isArray(parsed.orders) && parsed.orders.length > 0) {
+          if (parsed && Array.isArray(parsed.orders) && Array.isArray(parsed.users)) {
             this.db = parsed;
             loaded = true;
           }
@@ -1090,7 +1090,7 @@ class DatabaseManager {
       }
     }
 
-    // 3. Fallback to bundled snapshot (guarantees 100% data presence including debt audits on Vercel)
+    // 3. Fallback to bundled snapshot
     if (!loaded) {
       this.db = structuredClone(initialDatabaseSnapshot) as unknown as CRMDatabase;
     }

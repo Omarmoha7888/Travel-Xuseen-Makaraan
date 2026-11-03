@@ -151,25 +151,37 @@ class LocalCRMEngine {
       const stored = localStorage.getItem(LOCAL_STORAGE_KEY) || localStorage.getItem('balcad_crm_local_db_v3');
       if (stored) {
         const parsed = JSON.parse(stored);
-        const hasRealDebtOrders = parsed.orders?.some(
-          (o: any) => o.id === 'ord-1791019001394' && o.modifications_history?.length > 0
-        );
-        if (hasRealDebtOrders && (parsed.orders?.length || 0) >= 15) {
-          const admin = parsed.users?.find((u: any) => u.role === 'super_admin');
+        if (parsed && Array.isArray(parsed.users) && Array.isArray(parsed.orders)) {
+          // Normalize collections
+          if (!Array.isArray(parsed.customers)) parsed.customers = [];
+          if (!Array.isArray(parsed.payments)) parsed.payments = [];
+          if (!Array.isArray(parsed.transactions)) parsed.transactions = [];
+          if (!Array.isArray(parsed.conversations)) parsed.conversations = [];
+          if (!Array.isArray(parsed.messages)) parsed.messages = [];
+          if (!Array.isArray(parsed.notifications)) parsed.notifications = [];
+          if (!Array.isArray(parsed.activity_logs)) parsed.activity_logs = [];
+          if (!Array.isArray(parsed.cash_closures)) parsed.cash_closures = [];
+
+          // Ensure super admin credentials match blc00001
+          const admin = parsed.users.find((u: any) => u.role === 'super_admin');
           if (admin) {
             if (admin.username !== 'blc00001') {
               admin.username = 'blc00001';
-              admin.profile.full_name = 'Hussein Mohamud Ali';
+              if (admin.profile) {
+                admin.profile.full_name = 'Hussein Mohamud Ali';
+              }
               admin.password_plain = 'xuseen.50';
             }
           }
-          if (!parsed.cash_closures) {
-            parsed.cash_closures = [];
-          }
+
+          // Return user database as-is; never reset or wipe user deletions or additions
           return parsed;
         }
       }
-    } catch {}
+    } catch (err) {
+      console.warn('Error reading CRM database from localStorage:', err);
+    }
+
     const initial = createInitialLocalDB();
     this.saveDB(initial);
     return initial;
